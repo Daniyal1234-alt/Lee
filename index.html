@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinterest Intelligence Dashboard | Lee</title>
+    <meta name="description"
+        content="Lee's AI-powered Pinterest marketing intelligence dashboard for competitive analysis and strategic planning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- API Setup Modal -->
+    <div id="apiSetupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Connect to Airtable</h2>
+                <p>Enter your Airtable Personal Access Token to enable live data.</p>
+            </div>
+            <form id="apiKeyForm">
+                <div class="form-group">
+                    <label for="apiKeyInput">Airtable API Key</label>
+                    <input type="password" id="apiKeyInput" placeholder="pat.xxxxx..." required>
+                </div>
+                <p class="helper-text">Get your API key from <a href="https://airtable.com/create/tokens"
+                        target="_blank">Airtable Settings → Personal Access Tokens</a></p>
+                <button type="submit" class="btn-primary">Connect</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Global Loader -->
+    <div id="globalLoader" class="global-loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <span id="loaderText">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="error-toast"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+                        </svg>
+                    </div>
+                    <span class="logo-text">Lee's Intel</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-section="competitor-pins">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+                    </svg>
+                    <span>Competitor Pins</span>
+                </button>
+                <button class="nav-item" data-section="pin-analysis">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span>Pin Analysis</span>
+                </button>
+                <button class="nav-item" data-section="intelligence">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span>Weekly Intelligence</span>
+                </button>
+                <button class="nav-item" data-section="assistant">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span>AI Assistant</span>
+                    <span class="nav-badge">AI</span>
+                </button>
+                <button class="nav-item" data-section="content-planner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <span>Content Planner</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div id="syncStatus" class="sync-status">
+                    <span class="sync-dot"></span>
+                    <span>Disconnected</span>
+                </div>
+                <span id="lastUpdated" class="last-updated"></span>
+                <div class="footer-actions">
+                    <button id="refreshDataBtn" class="icon-btn" title="Refresh Data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
+                    <button id="apiSettingsBtn" class="icon-btn" title="API Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <header class="section-header">
+                    <h1>Dashboard Overview</h1>
+                    <p class="section-subtitle">Your Pinterest competitive intelligence at a glance</p>
+                </header>
+
+                <div class="metrics-grid">
+                    <div class="metric-card" data-metric="pinsAnalyzed">
+                        <div class="metric-icon gradient-purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value">—</span>
+                            <span class="metric-label">Pins Collected</span>
+                        </div>
+                        <div class="metric-trend neutral">Loading...</div>
+                    </div>
+
+                    <div class="metric-card" data-metric="topHook">
+                        <div class="metric-icon gradient-blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value">—</span>
+                            <span class="metric-label">Top Hook Type</span>
+                        </div>
+                        <div class="metric-trend neutral">Loading...</div>
+                    </div>
+
+                    <div class="metric-card" data-metric="gapOpportunities">
+                        <div class="metric-icon gradient-green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value">—</span>
+                            <span class="metric-label">Gap Opportunities</span>
+                        </div>
+                        <div class="metric-trend neutral">Loading...</div>
+                    </div>
+
+                    <div class="metric-card" data-metric="competitorsTracked">
+                        <div class="metric-icon gradient-orange">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value">—</span>
+                            <span class="metric-label">Competitors Tracked</span>
+                        </div>
+                        <div class="metric-trend neutral">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h3>🎯 Top Strategic Insight</h3>
+                        <div id="topInsight">
+                            <p class="empty-state-text">Connect to Airtable to see insights from your data.</p>
+                        </div>
+                        <button class="btn-secondary"
+                            onclick="document.querySelector('[data-section=assistant]').click()">Ask AI
+                            Assistant</button>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>🔥 Trending Keywords</h3>
+                        <div id="keywordTags" class="keyword-tags">
+                            <p class="empty-state-text">No keyword data yet</p>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>📊 Content Pillar Distribution</h3>
+                        <div id="pillarBars" class="pillar-bars">
+                            <p class="empty-state-text">No pillar data yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Competitor Pins Section -->
+            <section id="competitor-pins" class="content-section">
+                <header class="section-header">
+                    <h1>Competitor Pins</h1>
+                    <p class="section-subtitle">Raw competitive intelligence from Pinterest — Live from Airtable</p>
+                </header>
+
+                <div class="airtable-container">
+                    <div class="airtable-tabs">
+                        <button class="airtable-tab active" data-view="pins">All Pins</button>
+                        <button class="airtable-tab" data-view="high-engagement">High Engagement</button>
+                        <button class="airtable-tab" data-view="recent">Recent</button>
+                    </div>
+                    <div class="airtable-embed-wrapper">
+                        <iframe class="airtable-embed"
+                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
+                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pin Analysis Section -->
+            <section id="pin-analysis" class="content-section">
+                <header class="section-header">
+                    <h1>Pin Analysis</h1>
+                    <p class="section-subtitle">Deep strategic analysis of competitor content</p>
+                </header>
+
+                <div class="analysis-overview">
+                    <div class="analysis-stat">
+                        <span class="stat-value" id="statTopHook">—</span>
+                        <span class="stat-label">Most Common Hook</span>
+                    </div>
+                    <div class="analysis-stat">
+                        <span class="stat-value" id="statAvgCta">—</span>
+                        <span class="stat-label">Avg CTA Strength</span>
+                    </div>
+                    <div class="analysis-stat">
+                        <span class="stat-value" id="statDominantPillar">—</span>
+                        <span class="stat-label">Dominant Pillar</span>
+                    </div>
+                    <div class="analysis-stat">
+                        <span class="stat-value" id="statAnalyzedCount">—</span>
+                        <span class="stat-label">Pins Analyzed</span>
+                    </div>
+                </div>
+
+                <div class="airtable-container">
+                    <div class="airtable-embed-wrapper">
+                        <iframe class="airtable-embed"
+                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
+                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weekly Intelligence Section -->
+            <section id="intelligence" class="content-section">
+                <header class="section-header">
+                    <h1>Weekly Intelligence</h1>
+                    <p class="section-subtitle">Aggregated strategic insights and recommendations</p>
+                </header>
+
+                <div class="intelligence-summary">
+                    <div class="summary-card executive">
+                        <h3>📋 Executive Summary</h3>
+                        <div id="intelligenceSummary">
+                            <p class="empty-state-text">Connect to Airtable and add intelligence reports to see
+                                summaries here.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="airtable-container">
+                    <div class="airtable-embed-wrapper">
+                        <iframe class="airtable-embed"
+                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
+                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Assistant Section -->
+            <section id="assistant" class="content-section">
+                <header class="section-header">
+                    <h1>AI Assistant</h1>
+                    <p class="section-subtitle">Your strategic Pinterest marketing advisor — powered by real data</p>
+                </header>
+
+                <div class="assistant-container">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message assistant">
+                                <div class="message-avatar">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                                    </svg>
+                                </div>
+                                <div class="message-content">
+                                    <p>👋 Hey Lee! I'm connected to your live Airtable data and ready to help you
+                                        dominate Pinterest.</p>
+                                    <p>Click any quick action below to get insights based on your <strong>actual
+                                            competitor data</strong>!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" data-action="analyze">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                Analyze latest pins
+                            </button>
+                            <button class="quick-action-btn" data-action="weekly">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                                Weekly summary
+                            </button>
+                            <button class="quick-action-btn" data-action="hooks">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Best hooks
+                            </button>
+                            <button class="quick-action-btn" data-action="gaps">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Content gaps
+                            </button>
+                            <button class="quick-action-btn" data-action="keywords">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                                </svg>
+                                Keywords
+                            </button>
+                        </div>
+
+                        <div class="chat-input-container">
+                            <input type="text" id="chatInput" class="chat-input"
+                                placeholder="Ask me anything about your Pinterest strategy...">
+                            <button id="sendBtn" class="send-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Planner Section -->
+            <section id="content-planner" class="content-section">
+                <header class="section-header">
+                    <h1>Content Planner</h1>
+                    <p class="section-subtitle">Craft winning pins with competitive intelligence</p>
+                </header>
+
+                <div class="planner-container">
+                    <div class="planner-input-section">
+                        <h3>Draft Your Pin</h3>
+                        <div class="form-group">
+                            <label for="pinTitle">Pin Title</label>
+                            <input type="text" id="pinTitle" placeholder="Enter your pin title...">
+                        </div>
+                        <div class="form-group">
+                            <label for="pinDescription">Pin Description</label>
+                            <textarea id="pinDescription" rows="4"
+                                placeholder="Write your pin description..."></textarea>
+                        </div>
+                        <button class="btn-primary" id="analyzeContent">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            Analyze My Content
+                        </button>
+                    </div>
+
+                    <div class="planner-feedback-section">
+                        <h3>AI Feedback</h3>
+                        <div class="feedback-placeholder" id="feedbackArea">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            <p>Enter your pin content and click "Analyze" to get strategic feedback based on
+                                <strong>real competitive data</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
