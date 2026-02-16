@@ -2,8 +2,8 @@
 const AIRTABLE_CONFIG = {
     baseId: 'appMQ6QuquWCz2uNk',
     tables: {
-        competitorPins: 'Competitor Pins',
-        pinAnalysis: 'Pin Analysis',
+        competitorPins: 'competitor_pins',
+        pinAnalysis: 'pin_analysis',
         competitorIntelligence: 'competitor_intelligence'
     },
     embedUrl: 'https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc'
