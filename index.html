@@ -88,6 +88,26 @@
                     </svg>
                     <span>Weekly Intelligence</span>
                 </button>
+                <button class="nav-item" data-section="content-strategy">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg>
+                    <span>Content Strategy</span>
+                </button>
+                <button class="nav-item" data-section="content-queue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <span>Content Queue</span>
+                </button>
+                <button class="nav-item" data-section="keyword-library">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                    </svg>
+                    <span>Keyword Library</span>
+                </button>
                 <button class="nav-item" data-section="assistant">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -106,9 +126,9 @@
                 <a href="content-queue.html" class="nav-item" style="text-decoration:none">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                     </svg>
-                    <span>Content Queue</span>
+                    <span>Queue UI</span>
                     <span class="nav-badge">NEW</span>
                 </a>
             </nav>
@@ -231,20 +251,28 @@
             <section id="competitor-pins" class="content-section">
                 <header class="section-header">
                     <h1>Competitor Pins</h1>
-                    <p class="section-subtitle">Raw competitive intelligence from Pinterest — Live from Airtable</p>
+                    <p class="section-subtitle">Raw competitive intelligence from Pinterest — Live from Airtable (16
+                        columns, 268 records)</p>
                 </header>
-
-                <div class="airtable-container">
-                    <div class="airtable-tabs">
-                        <button class="airtable-tab active" data-view="pins">All Pins</button>
-                        <button class="airtable-tab" data-view="high-engagement">High Engagement</button>
-                        <button class="airtable-tab" data-view="recent">Recent</button>
+                <div id="competitorPinsTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search competitor pins..." id="searchCompetitorPins">
+                        </div>
+                        <span class="table-info" id="competitorPinsInfo">Loading...</span>
                     </div>
-                    <div class="airtable-embed-wrapper">
-                        <iframe class="airtable-embed"
-                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
-                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
+                    <div class="table-scroll">
+                        <table class="data-table" id="competitorPinsDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
+                    <div class="table-pagination" id="competitorPinsPagination"></div>
                 </div>
             </section>
 
@@ -252,60 +280,142 @@
             <section id="pin-analysis" class="content-section">
                 <header class="section-header">
                     <h1>Pin Analysis</h1>
-                    <p class="section-subtitle">Deep strategic analysis of competitor content</p>
+                    <p class="section-subtitle">AI-powered analysis of competitor content (18 columns, 268 records)</p>
                 </header>
-
-                <div class="analysis-overview">
-                    <div class="analysis-stat">
-                        <span class="stat-value" id="statTopHook">—</span>
-                        <span class="stat-label">Most Common Hook</span>
+                <div id="pinAnalysisTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search pin analysis..." id="searchPinAnalysis">
+                        </div>
+                        <span class="table-info" id="pinAnalysisInfo">Loading...</span>
                     </div>
-                    <div class="analysis-stat">
-                        <span class="stat-value" id="statAvgCta">—</span>
-                        <span class="stat-label">Avg CTA Strength</span>
+                    <div class="table-scroll">
+                        <table class="data-table" id="pinAnalysisDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    <div class="analysis-stat">
-                        <span class="stat-value" id="statDominantPillar">—</span>
-                        <span class="stat-label">Dominant Pillar</span>
-                    </div>
-                    <div class="analysis-stat">
-                        <span class="stat-value" id="statAnalyzedCount">—</span>
-                        <span class="stat-label">Pins Analyzed</span>
-                    </div>
-                </div>
-
-                <div class="airtable-container">
-                    <div class="airtable-embed-wrapper">
-                        <iframe class="airtable-embed"
-                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
-                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
-                    </div>
+                    <div class="table-pagination" id="pinAnalysisPagination"></div>
                 </div>
             </section>
 
-            <!-- Weekly Intelligence Section -->
+            <!-- Competitor Intelligence Section -->
             <section id="intelligence" class="content-section">
                 <header class="section-header">
-                    <h1>Weekly Intelligence</h1>
-                    <p class="section-subtitle">Aggregated strategic insights and recommendations</p>
+                    <h1>Competitor Intelligence</h1>
+                    <p class="section-subtitle">Weekly aggregated intelligence reports (9 columns, 2 records)</p>
                 </header>
-
-                <div class="intelligence-summary">
-                    <div class="summary-card executive">
-                        <h3>📋 Executive Summary</h3>
-                        <div id="intelligenceSummary">
-                            <p class="empty-state-text">Connect to Airtable and add intelligence reports to see
-                                summaries here.</p>
+                <div id="intelligenceTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search intelligence reports..." id="searchIntelligence">
                         </div>
+                        <span class="table-info" id="intelligenceInfo">Loading...</span>
                     </div>
+                    <div class="table-scroll">
+                        <table class="data-table" id="intelligenceDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="intelligencePagination"></div>
                 </div>
+            </section>
 
-                <div class="airtable-container">
-                    <div class="airtable-embed-wrapper">
-                        <iframe class="airtable-embed"
-                            src="https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc" frameborder="0"
-                            width="100%" height="600" style="background: transparent; border-radius: 12px;"></iframe>
+            <!-- Content Strategy Section -->
+            <section id="content-strategy" class="content-section">
+                <header class="section-header">
+                    <h1>Content Strategy</h1>
+                    <p class="section-subtitle">Content pillar distribution strategies with AI recommendations (12
+                        columns, 1 record)</p>
+                </header>
+                <div id="contentStrategyTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search content strategy..." id="searchContentStrategy">
+                        </div>
+                        <span class="table-info" id="contentStrategyInfo">Loading...</span>
                     </div>
+                    <div class="table-scroll">
+                        <table class="data-table" id="contentStrategyDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="contentStrategyPagination"></div>
+                </div>
+            </section>
+
+            <!-- Content Queue Section -->
+            <section id="content-queue" class="content-section">
+                <header class="section-header">
+                    <h1>Content Queue</h1>
+                    <p class="section-subtitle">Content creation pipeline from draft to publication (26 columns, 5
+                        records)</p>
+                </header>
+                <div id="contentQueueTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search content queue..." id="searchContentQueue">
+                        </div>
+                        <span class="table-info" id="contentQueueInfo">Loading...</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table" id="contentQueueDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="contentQueuePagination"></div>
+                </div>
+            </section>
+
+            <!-- Keyword Library Section -->
+            <section id="keyword-library" class="content-section">
+                <header class="section-header">
+                    <h1>Keyword Library</h1>
+                    <p class="section-subtitle">Centralized keyword repository with clustering and performance tracking
+                        (8 columns, 394 records)</p>
+                </header>
+                <div id="keywordLibraryTableContainer" class="data-table-container">
+                    <div class="table-toolbar">
+                        <div class="table-search">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search keywords..." id="searchKeywordLibrary">
+                        </div>
+                        <span class="table-info" id="keywordLibraryInfo">Loading...</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table" id="keywordLibraryDataTable">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="keywordLibraryPagination"></div>
                 </div>
             </section>
 

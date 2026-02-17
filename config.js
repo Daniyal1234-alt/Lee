@@ -4,7 +4,10 @@ const AIRTABLE_CONFIG = {
     tables: {
         competitorPins: 'competitor_pins',
         pinAnalysis: 'pin_analysis',
-        competitorIntelligence: 'competitor_intelligence'
+        competitorIntelligence: 'competitor_intelligence',
+        contentStrategy: 'content_strategy',
+        contentQueue: 'content_queue',
+        keywordLibrary: 'keyword_library'
     },
     embedUrl: 'https://airtable.com/embed/appMQ6QuquWCz2uNk/shrv5NEwpMvw4PEuc'
 };
@@ -51,6 +54,7 @@ class AirtableAPI {
 
         do {
             const params = new URLSearchParams();
+            params.append('cellFormat', 'string');
             if (offset) params.append('offset', offset);
             if (filterFormula) params.append('filterByFormula', filterFormula);
             if (maxRecords) params.append('maxRecords', maxRecords);
@@ -113,11 +117,7 @@ class AirtableAPI {
     async testConnection() {
         try {
             // Test each table individually to identify which one fails
-            const tables = [
-                AIRTABLE_CONFIG.tables.competitorPins,
-                AIRTABLE_CONFIG.tables.pinAnalysis,
-                AIRTABLE_CONFIG.tables.competitorIntelligence
-            ];
+            const tables = Object.values(AIRTABLE_CONFIG.tables);
 
             for (const table of tables) {
                 try {

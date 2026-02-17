@@ -13,7 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet">
     <style>
-        /* ===== Reset & Variables ===== */
+        /* ===== Reset & Variables — Light Premium Theme ===== */
         *,
         *::before,
         *::after {
@@ -23,20 +23,20 @@
         }
 
         :root {
-            --bg-deep: #0a0a12;
-            --bg-card: rgba(22, 22, 42, 0.7);
-            --bg-card-hover: rgba(28, 28, 52, 0.8);
-            --bg-sidebar: rgba(14, 14, 28, 0.95);
-            --bg-input: rgba(16, 16, 34, 0.9);
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --text: #f0f0f5;
-            --text-sec: #8a8aa3;
-            --text-muted: #5a5a75;
-            --purple: #8b5cf6;
+            --bg-deep: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --bg-sidebar: #ffffff;
+            --bg-input: #f8fafc;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --text: #0f172a;
+            --text-sec: #475569;
+            --text-muted: #94a3b8;
+            --purple: #3b82f6;
             --blue: #3b82f6;
             --green: #10b981;
-            --orange: #f59e0b;
+            --orange: #f97316;
             --coral: #ef4444;
             --teal: #14b8a6;
             --pink: #ec4899;
@@ -59,8 +59,6 @@
             background: var(--bg-deep);
             color: var(--text);
             min-height: 100vh;
-            background-image: radial-gradient(ellipse at 15% 10%, rgba(139, 92, 246, 0.08) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 55%);
         }
 
         /* ===== Layout ===== */
@@ -73,13 +71,13 @@
         .sidebar {
             width: var(--sidebar-w);
             background: var(--bg-sidebar);
-            backdrop-filter: blur(16px);
             border-right: 1px solid var(--border);
             position: fixed;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            z-index: 100
+            z-index: 100;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03)
         }
 
         .sidebar-head {
@@ -96,12 +94,13 @@
         .logo-box {
             width: 38px;
             height: 38px;
-            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            background: linear-gradient(135deg, #3b82f6, #ec4899);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff
+            color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25)
         }
 
         .logo-box svg {
@@ -110,11 +109,12 @@
         }
 
         .logo-txt {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            background: linear-gradient(135deg, #3b82f6, #ec4899);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent
+            -webkit-text-fill-color: transparent;
+            background-clip: text
         }
 
         .sidebar-nav {
@@ -151,24 +151,24 @@
         }
 
         .nav-link:hover {
-            background: rgba(139, 92, 246, 0.06);
-            color: var(--text)
+            background: var(--bg-card-hover);
+            color: var(--blue);
         }
 
         .nav-link.active {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--purple);
-            border-left-color: var(--purple)
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--blue);
+            border-left: 3px solid var(--blue)
         }
 
         .nav-badge {
             margin-left: auto;
             padding: 2px 8px;
-            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            background: linear-gradient(135deg, #3b82f6, #ec4899);
             border-radius: var(--radius-pill);
             font-size: .65rem;
             font-weight: 600;
-            color: #fff
+            color: white
         }
 
         .sidebar-foot {
@@ -310,22 +310,21 @@
 
         .stat-card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 16px 18px;
-            position: relative;
-            overflow: hidden;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
             transition: all var(--ease);
-            opacity: 0;
-            transform: translateY(14px);
-            animation: fadeSlideUp .45s ease forwards
+            animation: fadeUp .4s ease both;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04)
         }
 
         .stat-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3)
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+            border-color: var(--border-hover)
         }
 
         .stat-card::before {
@@ -378,27 +377,27 @@
         }
 
         .stat-val[data-color="purple"] {
-            color: var(--purple)
+            color: #3b82f6
         }
 
         .stat-val[data-color="blue"] {
-            color: var(--blue)
+            color: #3b82f6
         }
 
         .stat-val[data-color="green"] {
-            color: var(--green)
+            color: #10b981
         }
 
         .stat-val[data-color="orange"] {
-            color: var(--orange)
+            color: #f97316
         }
 
         .stat-val[data-color="coral"] {
-            color: var(--coral)
+            color: #ef4444
         }
 
         .stat-val[data-color="teal"] {
-            color: var(--teal)
+            color: #14b8a6
         }
 
         .stat-detail {
@@ -448,13 +447,15 @@
         }
 
         .status-tab:hover {
-            background: rgba(139, 92, 246, 0.08);
-            color: var(--text)
+            background: rgba(59, 130, 246, 0.06);
+            border-color: var(--blue);
+            color: var(--blue)
         }
 
         .status-tab.active {
-            background: var(--purple);
-            color: #fff
+            background: var(--blue);
+            border-color: var(--blue);
+            color: white
         }
 
         .status-tab .cnt {
@@ -534,29 +535,27 @@
 
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
             cursor: pointer;
             transition: all var(--ease);
-            opacity: 0;
-            transform: translateY(14px);
-            animation: fadeSlideUp .4s ease forwards
+            animation: fadeUp .4s ease both;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04)
         }
 
         .card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3)
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+            border-color: var(--border-hover)
         }
 
         /* Card Image */
         .card-img {
             position: relative;
             aspect-ratio: 2/1.4;
-            overflow: hidden;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(59, 130, 246, 0.08))
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(236, 72, 153, 0.03));
+            overflow: hidden
         }
 
         .card-img img {
@@ -802,7 +801,7 @@
 
         /* ===== Skeleton ===== */
         .skel {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0.03) 75%);
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: var(--radius-sm)
@@ -826,7 +825,7 @@
 
         .skel-img {
             aspect-ratio: 2/1.4;
-            background: rgba(255, 255, 255, 0.03)
+            background: #f1f5f9
         }
 
         .skel-line {
@@ -876,8 +875,8 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(4, 4, 12, 0.82);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
             z-index: 500;
             display: none;
             align-items: center;
@@ -893,7 +892,7 @@
         }
 
         .modal-box {
-            background: rgba(18, 18, 38, 0.96);
+            background: #ffffff;
             border: 1px solid var(--border);
             border-radius: 16px;
             width: 100%;
@@ -901,12 +900,12 @@
             max-height: 90vh;
             display: flex;
             overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5)
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15)
         }
 
         .modal-img {
             width: 45%;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(59, 130, 246, 0.06));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(236, 72, 153, 0.03));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -993,7 +992,7 @@
         .mono-block {
             font-family: var(--mono);
             font-size: .75rem !important;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 12px 14px;
@@ -1005,7 +1004,7 @@
 
         .collapse-toggle {
             font-size: .72rem;
-            color: var(--purple);
+            color: var(--blue);
             cursor: pointer;
             background: 0;
             border: 0;
@@ -1040,7 +1039,7 @@
         }
 
         .metric-box {
-            background: rgba(0, 0, 0, 0.25);
+            background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 12px;
@@ -1051,7 +1050,7 @@
             font-family: var(--mono);
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--purple);
+            color: var(--blue);
             display: block
         }
 
@@ -1062,8 +1061,8 @@
         }
 
         .ai-insight-box {
-            background: rgba(139, 92, 246, 0.07);
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            background: rgba(59, 130, 246, 0.04);
+            border: 1px solid rgba(59, 130, 246, 0.12);
             border-radius: var(--radius-sm);
             padding: 14px 16px
         }
@@ -1089,7 +1088,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
+            background: white;
             border: 1px solid var(--border);
             color: var(--text-sec);
             cursor: pointer;
@@ -1098,20 +1097,22 @@
             justify-content: center;
             font-size: 1.1rem;
             transition: all var(--ease);
-            z-index: 10
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06)
         }
 
         .modal-close:hover {
-            background: rgba(239, 68, 68, 0.3);
-            color: #fff;
-            border-color: var(--coral)
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--coral);
+            border-color: rgba(239, 68, 68, 0.3)
         }
 
         /* ===== Setup Modal ===== */
         .setup-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(4, 4, 12, 0.9);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
             z-index: 600;
             display: none;
             align-items: center;
@@ -1123,12 +1124,13 @@
         }
 
         .setup-box {
-            background: rgba(18, 18, 38, 0.98);
+            background: #ffffff;
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 36px;
             width: 100%;
-            max-width: 420px
+            max-width: 420px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15)
         }
 
         .setup-box h2 {
@@ -1163,7 +1165,8 @@
 
         .setup-box input:focus {
             outline: none;
-            border-color: var(--purple)
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1)
         }
 
         /* ===== Responsive ===== */
@@ -1202,7 +1205,7 @@
 
             .nav-link.active {
                 border-left-color: transparent;
-                border-bottom-color: var(--purple)
+                border-bottom-color: var(--blue)
             }
 
             .main {
@@ -1280,15 +1283,15 @@
         }
 
         .toast-success {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--green)
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #059669
         }
 
         .toast-error {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: var(--coral)
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626
         }
 
         /* Global Loader */
@@ -1311,7 +1314,7 @@
             display: block;
             height: 100%;
             width: 30%;
-            background: linear-gradient(90deg, transparent, var(--purple), transparent);
+            background: linear-gradient(90deg, transparent, var(--blue), transparent);
             animation: loaderSlide 1s infinite
         }
 
@@ -1391,6 +1394,11 @@
                         <path
                             d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg><span>Weekly Intel</span></a>
+                <a href="index.html#content-strategy" class="nav-link"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg><span>Content Strategy</span></a>
                 <a href="content-queue.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <path
@@ -1401,6 +1409,15 @@
                         <path
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg><span>AI Assistant</span></a>
+                <a href="index.html#keyword-library" class="nav-link"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                    </svg><span>Keyword Library</span></a>
+                <a href="index.html#content-planner" class="nav-link"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg><span>Content Planner</span></a>
             </nav>
             <div class="sidebar-foot"><span class="sync-dot"></span><span>Connected</span></div>
         </aside>
