@@ -55,6 +55,8 @@ class AirtableAPI {
         do {
             const params = new URLSearchParams();
             params.append('cellFormat', 'string');
+            params.append('timeZone', 'Asia/Karachi');
+            params.append('userLocale', 'en-us');
             if (offset) params.append('offset', offset);
             if (filterFormula) params.append('filterByFormula', filterFormula);
             if (maxRecords) params.append('maxRecords', maxRecords);
