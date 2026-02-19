@@ -294,7 +294,7 @@ ${!retry && !showClear ? '<button class="btn btn-primary" onclick="CQ.toast(\'Co
         const det = document.getElementById('modalDetail');
 
         if (f.Image_GDrive_ID) {
-            imgCont.innerHTML = `<img src="${this.imgUrl(f.Image_GDrive_ID, 1200)}" alt="${this.esc(f.Topic)}" style="aspect-ratio:2/3;object-fit:cover" onerror="this.parentElement.innerHTML='<div class=placeholder><svg viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/></svg><span>Image unavailable</span></div>'">`;
+            imgCont.innerHTML = `<img src="${this.imgUrl(f.Image_GDrive_ID, 1200)}" alt="${this.esc(f.Topic)}" style="object-fit:contain" onerror="this.parentElement.innerHTML='<div class=placeholder><svg viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/></svg><span>Image unavailable</span></div>'">`;
         } else {
             imgCont.innerHTML = `<div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Awaiting Generation</span></div>`;
         }
